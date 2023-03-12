@@ -211,3 +211,73 @@ def get_Map_Cost (map_width,map_height,ObstacleList):
     return cost_map
             
 
+
+"""
+----------------------------------------------------------------
+Dijkstra Algorithm
+---------------------------------------------------------------- 
+"""
+def getDijkstra(cost_graph,start,goal):
+    cost_list = {}
+    closed_list = []
+    #Contains the parent node and the cost taken to reach the current node
+    parent_index = {}
+    
+    cost_list[start]=0
+    closed_list.append(start)
+    open_list = [(0,start)]
+    
+    for parent,child in cost_graph.items():
+        cost_list[parent]= float('inf')
+        
+    Goal_Reached = False
+    
+    while len(open_list)>0 and Goal_Reached == False:
+        
+        total_cost,coord = heapq.heappop(open_list)
+        
+        for child_coord,current_cost in cost_graph[coord].items():
+            cost2Come = total_cost + current_cost 
+            if cost2Come < cost_list[child_coord]:
+                parent_index[child_coord] = {}
+                #Assigning parent coord to each child coord
+                parent_index[child_coord][cost2Come] = coord
+                cost_list[child_coord]= cost2Come
+                heapq.heappush(open_list, (cost2Come, child_coord))
+                if child_coord not in closed_list:
+                    closed_list.append(child_coord)
+                    if child_coord == goal:
+                        Goal_Reached = True
+                        print("Goal Identified")
+                        break
+                        
+    print("Total Cost Explored: ",cost2Come)
+    print("Backtracking.......")
+                    
+    return closed_list,parent_index     
+
+    
+"""
+----------------------------------------------------------------
+Backtrack 
+---------------------------------------------------------------- 
+"""
+
+def get_Backtrack(parent_index,goal,start):
+    back_track = []
+    current= start
+    back_track.append(current)
+    is_goal_reached = False
+    
+    while is_goal_reached == False:
+        for coord,parent_cost in parent_index.items():
+            for cost,parent in parent_cost.items():
+                if coord==current:
+                    if parent not in back_track:
+                        back_track.append(current)
+                    current = parent
+                    if parent == goal:
+                        is_goal_reached = True
+                        break
+
+    return back_track
