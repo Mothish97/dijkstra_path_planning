@@ -281,3 +281,96 @@ def get_Backtrack(parent_index,goal,start):
                         break
 
     return back_track
+
+
+"""
+----------------------------------------------------------------
+Get all the list 
+---------------------------------------------------------------- 
+"""
+
+def get_closed_parentindex(map_width,map_height,start,goal,obstacle_list):
+
+    cost_graph = get_Map_Cost(map_width,map_height,obstacle_list)
+    parent_index = {}
+    closed_list = []
+    closed_list,parent_index= getDijkstra(cost_graph,start,goal) 
+    return(closed_list,parent_index)
+
+"""
+----------------------------------------------------------------
+Visualization 
+---------------------------------------------------------------- 
+"""
+
+def visualize_map(map_width,map_height,obstacle_list,closed_list,back_track_coord):
+    
+    obstacle_map = np.zeros((map_width,map_height),np.uint8) 
+    obstacle_map[obstacle_list]=255
+   
+    pygame.init()
+    gameDisplay = pygame.display.set_mode((map_width,map_height),pygame.FULLSCREEN)
+    pygame.surfarray.make_surface(obstacle_map)
+    pygame.display.set_caption('Dijkstra Algorithm')
+    
+    gameDisplay.fill((0,0,0))
+    #Adding explored region/ visited nodes
+    for coords in closed_list:
+        pygame.draw.rect(gameDisplay, (255,0,0), [coords[0] ,abs(250-coords[1]),1,1])
+        pygame.display.flip()
+    #Addinf back track path
+    for coords in back_track_coord:    
+        pygame.time.wait(5)
+        pygame.draw.rect(gameDisplay, (255,255,0), [coords[0],abs(250-coords[1]),1,1])
+        pygame.display.flip()
+  
+    pygame.quit()
+
+
+def main():
+    map_width = 600
+    map_height = 250
+    obstacle_list = getObstacleCoord(map_width,map_height)
+    # while True: 
+    start = ()
+    goal = ()
+    try:
+
+        while True: 
+            x_s = int(input("Please enter the x coordinate of start  : "))
+            y_s = int(input("Please enter the y coordinate of start  : "))
+            x_g = int(input("Please enter the x coordinate of goal  : "))
+            y_g = int(input("Please enter the y coordinate of goal  : "))
+            
+            if(x_s>=map_width or x_g>=map_width or y_g>=map_height or y_g>=map_height or x_s<0 or x_g<0 or y_g<0 or y_g<0):
+                print("Please enter a value for x betweenn 0-599 and y between 0-249")
+                continue
+            
+            elif((x_s,y_s)  in obstacle_list ) or ((x_g,y_g) in obstacle_list ):
+                print("The input entered is on the obstacle point, Please enter a valid input")
+                continue
+            else:
+                start = (x_s,y_s) 
+                goal =  (x_g,y_g)
+                break
+                
+    
+        
+        
+        start_time = time.time()
+        closed_list,parent_index= get_closed_parentindex(map_width,map_height,start,goal,obstacle_list) 
+        back_track_coord={}
+        back_track_coord = get_Backtrack(parent_index,start,goal)
+        print("Time to Find Path: ",time.time() - start_time, "seconds")
+        visualize_map(map_width,map_height,obstacle_list,closed_list,back_track_coord)
+        #     break
+            
+    except:
+        print("You have entered an invalid output please Run the program again")
+        
+    
+    
+    
+    
+main()
+
