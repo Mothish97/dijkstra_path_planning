@@ -226,6 +226,7 @@ def getDijkstra(cost_graph,start,goal):
     cost_list[start]=0
     closed_list.append(start)
     open_list = [(0,start)]
+    print("Running Dijkstra Algorithm.......")
     
     for parent,child in cost_graph.items():
         cost_list[parent]= float('inf')
