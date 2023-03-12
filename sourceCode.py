@@ -75,3 +75,81 @@ def getObstacleCoord(mapWidth,mapHeight):
                 obstacles.append((x,y))
                 
     return obstacles
+
+
+
+"""
+----------------------------------------------------------------
+Action Set
+---------------------------------------------------------------- 
+"""
+
+def up(coords,map_width,map_height):  
+
+    if  coords[1]<map_height-1:
+        coords= (coords[0]  , coords[1]+1) 
+        return(coords,True)
+    else:
+        return(coords,False)
+    
+def upRight(coords,map_width,map_height): #DONE
+
+    if coords[0]<map_width-1 and coords[1]<map_height-1:
+        coords= (coords[0]+1  , coords[1]+1) 
+        return(coords,True)
+    else:
+        return(coords,False)
+    
+def right(coords,map_width,map_height):  
+
+    if coords[0]<map_width-1:
+        coords= (coords[0]+1  , coords[1]) 
+        return(coords,True)
+    else:
+        return(coords,False)
+    
+
+def downRight(coords,map_width,map_height):  #DONE
+
+    if coords[0]<map_width-1 and coords[1]>0:
+        coords= (coords[0]+1  , coords[1]-1) 
+        return(coords,True)
+    else:
+        return(coords,False)
+    
+    
+def down(coords,map_width,map_height):   
+
+    if coords[1]>0:
+        coords= (coords[0]  , coords[1]-1) 
+        return(coords,True)
+    else:
+        return(coords,False)
+    
+def downLeft(coords,map_width,map_height):  #DONE
+
+    if coords[0]>0 and coords[1]>0:
+        coords= (coords[0]-1  , coords[1]-1) 
+        return(coords,True)
+    else:
+        return(coords,False)
+
+def left(coords,map_width,map_height):   
+
+    if coords[0]>0:
+        coords= (coords[0]-1  , coords[1]) 
+        return(coords,True)
+    else:
+        return(coords,False)   
+    
+def upLeft(coords,map_width,map_height):  
+
+    if coords[0]>0 and coords[1]<map_height-1:
+        coords= (coords[0]-1  , coords[1]+1) 
+        return(coords,True)
+    else:
+        return(coords,False)
+    
+
+
+
