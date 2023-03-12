@@ -308,7 +308,7 @@ def visualize_map(map_width,map_height,obstacle_list,closed_list,back_track_coor
     obstacle_map[obstacle_list]=255
    
     pygame.init()
-    gameDisplay = pygame.display.set_mode((map_width,map_height),pygame.FULLSCREEN)
+    gameDisplay = pygame.display.set_mode((map_width,map_height))
     pygame.surfarray.make_surface(obstacle_map)
     pygame.display.set_caption('Dijkstra Algorithm')
     
@@ -330,9 +330,9 @@ def main():
     map_width = 600
     map_height = 250
     obstacle_list = getObstacleCoord(map_width,map_height)
-    # while True: 
-    start = ()
-    goal = ()
+
+    start = (0,0)
+    goal = (599,249)
     try:
 
         while True: 

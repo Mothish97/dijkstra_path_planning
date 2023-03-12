@@ -10,7 +10,7 @@ Instruction:
 
 6) Once backtrack path generated the animation display will pop up in full-screen. 
 
-7) A sample animation is provided with the file named as "Final_output.mp4"
+7) A sample animation is provided with the file named as "output_full_screen.mp4" for full screeen and "output_small_screen.mp4" for window mode
 
 
 
