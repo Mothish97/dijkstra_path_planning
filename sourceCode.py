@@ -152,4 +152,62 @@ def upLeft(coords,map_width,map_height):
     
 
 
+"""
+----------------------------------------------------------------
+Get Cost Map for the map width and height
+---------------------------------------------------------------- 
+"""
+
+def get_Map_Cost (map_width,map_height,ObstacleList):
+    
+    graph_map ={}
+    cost_map={}
+    obs_set = set(ObstacleList)
+    #Creating the Graph with nodes
+    for i in tqdm(range(map_width-1,-1,-1)):
+        for j in range(map_height-1,-1,-1):
+            if (i,j) not in ObstacleList:
+                possible_action=[]
+                up_action, is_up = up((i,j),map_width,map_height)
+                down_action, is_down = down((i,j),map_width,map_height)
+                left_action, is_left = left((i,j),map_width,map_height)
+                right_action, is_right = right((i,j),map_width,map_height)
+                
+                up_right_action, is_up_right = upRight((i,j),map_width,map_height)
+                up_left_action, is_up_left = upLeft((i,j),map_width,map_height)
+                down_left_action, is_down_left = downLeft((i,j),map_width,map_height)
+                down_right_action, is_down_right = downRight((i,j),map_width,map_height)
+                
+                if(is_up) and up_action not in obs_set :
+                    possible_action.append(up_action)
+                if(is_down) and down_action not in obs_set:
+                    possible_action.append(down_action)
+                if(is_left) and left_action not in obs_set:
+                    possible_action.append(left_action)
+                if(is_right) and right_action not in obs_set:
+                    possible_action.append(right_action)
+                if(is_up_right) and up_right_action not in obs_set:
+                    possible_action.append(up_right_action)
+                if(is_up_left) and up_left_action not in obs_set:
+                    possible_action.append(up_left_action)
+                if(is_down_left) and down_right_action not in obs_set:
+                    possible_action.append(down_right_action)
+                if(is_down_right) and down_left_action not in obs_set:
+                    possible_action.append(down_left_action)
+                if(len(possible_action)>1):
+                    graph_map[(i,j)]= possible_action[:]
+                    
+    #Adding cost to the different actions or states
+    for key,value in graph_map.items():
+        cost_map[key]={}
+        up_node,down_node,right_node,left_node = up(key,map_width,map_height),down(key,map_width,map_height), left(key,map_width,map_height), right(key,map_width,map_height)
+        up_left_node, up_right_node, down_left_node, down_right_node = upLeft(key,map_width,map_height),upRight(key,map_width,map_height), downLeft(key,map_width,map_height), downRight(key,map_width,map_height)
+        for coord in value:
+            if coord in [up_node[0],left_node[0],right_node[0],down_node[0]]:
+                cost_map[key][coord] = 1 
+            elif coord in [up_left_node[0],up_right_node[0],down_left_node[0],down_right_node[0]]:
+                cost_map[key][coord]= 1.4
+              
+    return cost_map
+            
 
