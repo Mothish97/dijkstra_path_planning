@@ -1,6 +1,6 @@
 Instruction:
 
-1) Open the IDE to run .py file (spyder is preferred) and open the "sourceCode.py"
+1) Open the IDE to run .py file (spyder is preferred) and open the "dijkstra_mothishraj_venkatesankumararaj.py"
 
 2) The code will ask for start and goal point coordinates (If anything other than int datatype is inserted the program will throw error, please re-run the program)
 
@@ -22,3 +22,8 @@ heapq
 time
 pygame
 tqdm 
+
+
+git link:
+
+https://github.com/Mothish97/dijkstra_path_planning
