@@ -9,9 +9,7 @@ Created on Sun Mar  5 18:39:16 2023
 import numpy as np
 import heapq
 import time
-import cv2
 import pygame
-from collections import defaultdict
 from tqdm import tqdm
 
 
