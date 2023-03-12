@@ -27,3 +27,8 @@ tqdm
 git link:
 
 https://github.com/Mothish97/dijkstra_path_planning
+
+
+Inputs Given:
+Start : (0,0)
+Goal : (599,249)
