@@ -12,7 +12,6 @@ import time
 import pygame
 from tqdm import tqdm
 
-
 """
 ----------------------------------------------------------------
  Creating obstacles in the map
@@ -29,8 +28,8 @@ def get_slope_const(p1, p2):
     
 def getObstacleCoord(mapWidth,mapHeight):
     coords=[]
-    for i in range(mapWidth + 1): 
-        for j in range(mapHeight + 1): 
+    for i in range(mapWidth): 
+        for j in range(mapHeight): 
             coords.append((i,j)) 
             
     obstacles= []
@@ -57,6 +56,9 @@ def getObstacleCoord(mapWidth,mapHeight):
      
     for pts in coords:
         x, y = pts[0], pts[1] 
+        
+        if x<= clearance or y<=clearance or x>= mapWidth-clearance or  y>= mapHeight-clearance:
+            obstacles.append((x,y))
         #Rectangle 1
         if x>100 -clearance and x<150 +clearance and y >150-clearance and y <250:
             obstacles.append((x,y))
@@ -232,7 +234,6 @@ def getDijkstra(cost_graph,start,goal):
     Goal_Reached = False
     
     while len(open_list)>0 and Goal_Reached == False:
-        
         total_cost,coord = heapq.heappop(open_list)
         
         for child_coord,current_cost in cost_graph[coord].items():
@@ -248,12 +249,15 @@ def getDijkstra(cost_graph,start,goal):
                     if child_coord == goal:
                         Goal_Reached = True
                         print("Goal Identified")
+                        print("Total Cost Explored: ",cost2Come)
+                        print("Backtracking.......")
+                        return closed_list,parent_index,True
                         break
-                        
-    print("Total Cost Explored: ",cost2Come)
-    print("Backtracking.......")
+    print("Goal Not Reached")                  
+    closed_list={}
+    parent_index={}           
                     
-    return closed_list,parent_index     
+    return closed_list,parent_index,False     
 
     
 """
@@ -293,8 +297,8 @@ def get_closed_parentindex(map_width,map_height,start,goal,obstacle_list):
     cost_graph = get_Map_Cost(map_width,map_height,obstacle_list)
     parent_index = {}
     closed_list = []
-    closed_list,parent_index= getDijkstra(cost_graph,start,goal) 
-    return(closed_list,parent_index)
+    closed_list,parent_index,isGoal= getDijkstra(cost_graph,start,goal) 
+    return(closed_list,parent_index,isGoal)
 
 """
 ----------------------------------------------------------------
@@ -331,8 +335,8 @@ def main():
     map_height = 250
     obstacle_list = getObstacleCoord(map_width,map_height)
 
-    start = (0,0)
-    goal = (599,249)
+    start = (11,11)
+    goal = (550,220)
     try:
 
         while True: 
@@ -355,15 +359,19 @@ def main():
                 
     
         
-        
-        start_time = time.time()
-        closed_list,parent_index= get_closed_parentindex(map_width,map_height,start,goal,obstacle_list) 
-        back_track_coord={}
-        back_track_coord = get_Backtrack(parent_index,start,goal)
-        print("Time to Find Path: ",time.time() - start_time, "seconds")
-        visualize_map(map_width,map_height,obstacle_list,closed_list,back_track_coord)
-        #     break
             
+        start_time = time.time()
+        closed_list,parent_index,isGoal= get_closed_parentindex(map_width,map_height,start,goal,obstacle_list) 
+        if(isGoal):
+            back_track_coord={}
+            back_track_coord = get_Backtrack(parent_index,start,goal)
+        else:
+            print("Bactracking cannot be done")
+        print("Time to Find Path: ",time.time() - start_time, "seconds")
+        if (isGoal):
+            visualize_map(map_width,map_height,obstacle_list,closed_list,back_track_coord)
+    #     break
+        
     except:
         print("You have entered an invalid output please Run the program again")
         

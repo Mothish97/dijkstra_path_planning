@@ -10,8 +10,7 @@ Instruction:
 
 6) Once backtrack path generated the animation display will pop up in full-screen. 
 
-7) A sample animation is provided with the file named as "output_full_screen.mp4" for full screeen and "output_small_screen.mp4" for window mode
-
+7) A sample animation is provided with the file named as "OUTPUT_1.mp4" and "OUTPUT_1.mp4" 
 
 
 
@@ -30,5 +29,5 @@ https://github.com/Mothish97/dijkstra_path_planning
 
 
 Inputs Given:
-Start : (0,0)
-Goal : (599,249)
+Start : (11,11)
+Goal : (550,220)
